@@ -1,0 +1,196 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../app/generated/prisma"
+  moduleFormat    = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Rol {
+  SUPER_ADMIN
+  ADMIN
+  BUSINESS
+  USER
+}
+
+enum Plan {
+  UCRETSIZ
+  STARTER
+  PRO
+}
+
+enum RandevuDurum {
+  BEKLIYOR
+  ONAYLANDI
+  IPTAL
+  TAMAMLANDI
+}
+
+model Kullanici {
+  id              Int       @id @default(autoincrement())
+  kullaniciAdi    String?   @unique
+  email           String    @unique
+  telefon         String?
+  sifreHash       String
+  ad              String
+  soyad           String
+  avatarUrl       String?
+  dogumTarihi     DateTime?
+  adres           String?
+  dil             String    @default("tr")
+  rol             Rol       @default(USER)
+  emailOnay       Boolean   @default(false)
+  plan            Plan      @default(UCRETSIZ)
+  planBitisTarihi DateTime?
+  ilgiAlanlari    String[]
+  olusturmaT      DateTime  @default(now())
+  guncelleT       DateTime  @updatedAt
+
+  oturumlar Oturum[]
+  esnaf     Esnaf?
+  favoriler Favori[]
+  yorumlar  Yorum[]
+}
+
+model Oturum {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  kullaniciId Int
+  sonT       DateTime
+  olusturmaT DateTime @default(now())
+
+  kullanici Kullanici @relation(fields: [kullaniciId], references: [id], onDelete: Cascade)
+}
+
+model Tur {
+  id         Int       @id @default(autoincrement())
+  ad         String    @unique
+  slug       String    @unique
+  ikon       String
+  renk       String
+  sira       Int       @default(0)
+
+  kategoriler Kategori[]
+}
+
+model Kategori {
+  id    Int    @id @default(autoincrement())
+  ad    String @unique
+  slug  String @unique
+  ikon  String
+  renk  String
+  sira  Int    @default(0)
+  turId Int?
+
+  tur     Tur?    @relation(fields: [turId], references: [id])
+  esnaflar Esnaf[]
+}
+
+model Esnaf {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  isletmeAdi  String
+  aciklama    String?
+  kategoriId  Int
+  kapakFoto   String?
+  logoUrl     String?
+  fotograflar String[]
+  sehir       String
+  ilce        String
+  adres       String?
+  enlem       Float?
+  boylam      Float?
+  telefon     String?
+  whatsapp    String?
+  website     String?
+  instagram   String?
+  aktif       Boolean  @default(true)
+  onaylı      Boolean  @default(false)
+  olusturmaT  DateTime @default(now())
+  guncelleT   DateTime @updatedAt
+  kullaniciId Int      @unique
+
+  kullanici   Kullanici    @relation(fields: [kullaniciId], references: [id])
+  kategori    Kategori     @relation(fields: [kategoriId], references: [id])
+  hizmetler   Hizmet[]
+  randevular  Randevu[]
+  yorumlar    Yorum[]
+  istatistikler Istatistik[]
+  favoriler   Favori[]
+}
+
+model Hizmet {
+  id         Int      @id @default(autoincrement())
+  ad         String
+  aciklama   String?
+  fiyat      Decimal
+  sure       Int?
+  kategori   String?
+  fotoUrl    String?
+  aktif      Boolean  @default(true)
+  sira       Int      @default(0)
+  olusturmaT DateTime @default(now())
+  esnafId    Int
+
+  esnaf     Esnaf     @relation(fields: [esnafId], references: [id], onDelete: Cascade)
+  randevular Randevu[]
+}
+
+model Randevu {
+  id             Int          @id @default(autoincrement())
+  tarih          DateTime
+  sure           Int
+  durum          RandevuDurum @default(BEKLIYOR)
+  musteriAd      String
+  musteriTelefon String
+  musteriNot     String?
+  olusturmaT     DateTime     @default(now())
+  guncelleT      DateTime     @updatedAt
+  esnafId        Int
+  hizmetId       Int?
+
+  esnaf   Esnaf   @relation(fields: [esnafId], references: [id], onDelete: Cascade)
+  hizmet  Hizmet? @relation(fields: [hizmetId], references: [id])
+}
+
+model Yorum {
+  id         Int      @id @default(autoincrement())
+  puan       Int
+  yorum      String?
+  musteriAd  String
+  yanitlar   String?
+  onaylı     Boolean  @default(false)
+  olusturmaT DateTime @default(now())
+  esnafId    Int
+  kullaniciId Int?
+
+  esnaf     Esnaf      @relation(fields: [esnafId], references: [id], onDelete: Cascade)
+  kullanici Kullanici? @relation(fields: [kullaniciId], references: [id])
+}
+
+model Favori {
+  id         Int      @id @default(autoincrement())
+  kullaniciId Int
+  esnafId    Int
+  olusturmaT DateTime @default(now())
+
+  kullanici Kullanici @relation(fields: [kullaniciId], references: [id], onDelete: Cascade)
+  esnaf     Esnaf     @relation(fields: [esnafId], references: [id], onDelete: Cascade)
+
+  @@unique([kullaniciId, esnafId])
+}
+
+model Istatistik {
+  id           Int      @id @default(autoincrement())
+  tarih        DateTime @default(now())
+  goruntulenme Int      @default(0)
+  tiklanma     Int      @default(0)
+  randevuSay   Int      @default(0)
+  whatsappT    Int      @default(0)
+  esnafId      Int
+
+  esnaf Esnaf @relation(fields: [esnafId], references: [id], onDelete: Cascade)
+}
