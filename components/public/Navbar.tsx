@@ -11,9 +11,7 @@ export function Navbar() {
   const [dropdownAcik, setDropdownAcik] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const router = useRouter()
 
-  // Kullanıcı bilgilerini session'dan al
   const kullanici = session?.user
     ? {
         id: session.user.id ?? '',
@@ -22,22 +20,17 @@ export function Navbar() {
         email: session.user.email ?? '',
         kullaniciAdi: (session.user as any).kullaniciAdi ?? null,
         rol: (session.user as any).rol ?? 'USER',
-        avatarUrl: session.user.image ?? null,
       }
     : null
 
-  // Scroll efekti
   useEffect(() => {
-    function handleScroll() {
-      setScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Dropdown dışına tıklama
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownAcik(false)
       }
@@ -45,16 +38,6 @@ export function Navbar() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  // Mobil menü açıkken scroll kilitle
-  useEffect(() => {
-    if (menuAcik) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => { document.body.style.overflow = '' }
-  }, [menuAcik])
 
   const basSaltHarfler = kullanici
     ? `${kullanici.ad[0] ?? ''}${kullanici.soyad[0] ?? ''}`.toUpperCase()
@@ -68,184 +51,99 @@ export function Navbar() {
       : null
 
   return (
-    <nav className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'navbar-glass navbar-scrolled' : 'navbar-glass'}`}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${scrolled ? 'glass-nav shadow-sm h-16' : 'bg-white h-20'}`}>
+      <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+        
+        {/* Logo Bölümü */}
+        <div className="flex items-center gap-12">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:shadow-orange-500/40 transition-shadow">
+            <div className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
               <span className="text-white font-black text-sm">E</span>
             </div>
-            <span className="text-xl font-black tracking-tight">
-              <span className="gradient-text">ESKOB</span>
-            </span>
+            <span className="text-xl font-black tracking-tight text-gray-900">ESKOB</span>
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1">
-            <Link href="/ara" className="btn-ghost text-sm">
-              Keşfet
-            </Link>
-            <Link href="/hizmetler" className="btn-ghost text-sm">
-              Hizmetler
-            </Link>
+          {/* Desktop Orta Linkler */}
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/ara" className="text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors">Keşfet</Link>
+            <Link href="/hizmetler" className="text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors">Hizmetler</Link>
             {!kullanici && (
-              <Link href="/esnaf-ol" className="btn-ghost text-sm">
-                Esnaf Ol
-              </Link>
+              <Link href="/esnaf-ol" className="text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors">Esnaf Ol</Link>
             )}
           </div>
+        </div>
 
-          {/* Desktop auth */}
-          <div className="hidden md:flex items-center gap-3">
-            {status === 'loading' ? (
-              <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
-            ) : kullanici ? (
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  onClick={() => setDropdownAcik(!dropdownAcik)}
-                  className="flex items-center gap-2.5 px-3 py-1.5 rounded-full hover:bg-orange-50/80 transition-all duration-200 border border-transparent hover:border-orange-100"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 text-white flex items-center justify-center text-xs font-bold shadow-md shadow-orange-500/20">
-                    {basSaltHarfler}
-                  </div>
-                  <span className="text-sm font-semibold text-gray-700">{kullanici.ad}</span>
-                  <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${dropdownAcik ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+        {/* Sağ Taraf - Auth */}
+        <div className="flex items-center gap-4">
+          {status === 'loading' ? (
+            <div className="w-8 h-8 rounded-full bg-gray-100 animate-pulse" />
+          ) : kullanici ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownAcik(!dropdownAcik)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-50 transition-colors border border-gray-100"
+              >
+                <div className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold">
+                  {basSaltHarfler}
+                </div>
+                <span className="text-sm font-semibold text-gray-700 hidden sm:block">{kullanici.ad}</span>
+                <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform ${dropdownAcik ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
 
-                {dropdownAcik && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white/95 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-xl shadow-black/5 py-1.5 z-50 animate-slide-down">
-                    {/* User info header */}
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-sm font-semibold text-gray-900">{kullanici.ad} {kullanici.soyad}</p>
-                      <p className="text-xs text-gray-500 mt-0.5">{kullanici.email}</p>
-                    </div>
+              {dropdownAcik && (
+                <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-[110] animate-slide-down">
+                  {panelLinki && (
+                    <Link href={panelLinki} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50" onClick={() => setDropdownAcik(false)}>
+                      <span>📊</span> Panelim
+                    </Link>
+                  )}
+                  {kullanici.rol === 'USER' && kullanici.kullaniciAdi && (
+                    <>
+                      <Link href={`/u/${kullanici.kullaniciAdi}/favoriler`} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50" onClick={() => setDropdownAcik(false)}>❤️ Favorilerim</Link>
+                      <Link href={`/u/${kullanici.kullaniciAdi}/randevular`} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50" onClick={() => setDropdownAcik(false)}>📅 Randevularım</Link>
+                      <Link href={`/u/${kullanici.kullaniciAdi}/profil`} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50" onClick={() => setDropdownAcik(false)}>👤 Profilim</Link>
+                    </>
+                  )}
+                  <div className="border-t border-gray-50 my-1" />
+                  <button
+                    onClick={() => signOut({ callbackUrl: '/' })}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 w-full text-left"
+                  >
+                    <span>🚪</span> Çıkış Yap
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link href="/giris" className="text-sm font-semibold text-gray-700 hover:text-orange-500 px-4 py-2">Giriş Yap</Link>
+              <Link href="/kayit" className="btn-primary !py-2 !px-5 text-sm">Ücretsüz Başla</Link>
+            </div>
+          )}
 
-                    {panelLinki && (
-                      <>
-                        <Link href={panelLinki} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition-colors" onClick={() => setDropdownAcik(false)}>
-                          <span className="w-5 text-center">📊</span> Panel
-                        </Link>
-                        <div className="border-t border-gray-100 my-1" />
-                      </>
-                    )}
-                    {kullanici.rol === 'USER' && kullanici.kullaniciAdi && (
-                      <>
-                        <Link href={`/u/${kullanici.kullaniciAdi}/favoriler`} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition-colors" onClick={() => setDropdownAcik(false)}>
-                          <span className="w-5 text-center">❤️</span> Favorilerim
-                        </Link>
-                        <Link href={`/u/${kullanici.kullaniciAdi}/randevular`} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition-colors" onClick={() => setDropdownAcik(false)}>
-                          <span className="w-5 text-center">📅</span> Randevularım
-                        </Link>
-                        <Link href={`/u/${kullanici.kullaniciAdi}/yorumlar`} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition-colors" onClick={() => setDropdownAcik(false)}>
-                          <span className="w-5 text-center">⭐</span> Yorumlarım
-                        </Link>
-                        <Link href={`/u/${kullanici.kullaniciAdi}/profil`} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition-colors" onClick={() => setDropdownAcik(false)}>
-                          <span className="w-5 text-center">👤</span> Profilim
-                        </Link>
-                        <Link href={`/u/${kullanici.kullaniciAdi}/ayarlar`} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition-colors" onClick={() => setDropdownAcik(false)}>
-                          <span className="w-5 text-center">⚙️</span> Ayarlar
-                        </Link>
-                        <div className="border-t border-gray-100 my-1" />
-                      </>
-                    )}
-                    <button
-                      onClick={() => { signOut({ callbackUrl: '/' }); setDropdownAcik(false) }}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 w-full text-left transition-colors"
-                    >
-                      <span className="w-5 text-center">🚪</span> Çıkış Yap
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <>
-                <Link href="/giris" className="btn-ghost text-sm font-medium">
-                  Giriş Yap
-                </Link>
-                <Link href="/kayit" className="btn-primary text-sm !py-2.5 !px-5">
-                  <span>Ücretsiz Başla</span>
-                </Link>
-              </>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMenuAcik(!menuAcik)}
-            className="md:hidden p-2 rounded-xl text-gray-600 hover:bg-gray-100 transition-colors"
-            aria-label="Menü"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {menuAcik
-                ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              }
+          {/* Mobile Menu Button */}
+          <button onClick={() => setMenuAcik(!menuAcik)} className="md:hidden p-2 text-gray-600">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {menuAcik ? <path d="M6 18L18 6M6 6l12 12" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
             </svg>
           </button>
         </div>
-
-        {/* Mobile menu overlay */}
-        {menuAcik && (
-          <div className="md:hidden fixed inset-0 top-16 z-40">
-            <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setMenuAcik(false)} />
-            <div className="relative bg-white border-t border-gray-100 shadow-xl animate-slide-down">
-              <div className="px-4 py-4 flex flex-col gap-1">
-                {kullanici && (
-                  <div className="flex items-center gap-3 px-3 py-3 mb-2 bg-orange-50 rounded-xl">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 text-white flex items-center justify-center text-sm font-bold">
-                      {basSaltHarfler}
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">{kullanici.ad} {kullanici.soyad}</p>
-                      <p className="text-xs text-gray-500">{kullanici.email}</p>
-                    </div>
-                  </div>
-                )}
-
-                <Link href="/ara" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl font-medium transition-colors" onClick={() => setMenuAcik(false)}>
-                  🔍 Keşfet
-                </Link>
-                <Link href="/hizmetler" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl font-medium transition-colors" onClick={() => setMenuAcik(false)}>
-                  📋 Hizmetler
-                </Link>
-
-                {kullanici ? (
-                  <>
-                    {panelLinki && (
-                      <Link href={panelLinki} className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl font-medium transition-colors" onClick={() => setMenuAcik(false)}>
-                        📊 Panel
-                      </Link>
-                    )}
-                    {kullanici.rol === 'USER' && kullanici.kullaniciAdi && (
-                      <>
-                        <div className="border-t border-gray-100 my-1" />
-                        <Link href={`/u/${kullanici.kullaniciAdi}/favoriler`} className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl transition-colors" onClick={() => setMenuAcik(false)}>❤️ Favorilerim</Link>
-                        <Link href={`/u/${kullanici.kullaniciAdi}/randevular`} className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl transition-colors" onClick={() => setMenuAcik(false)}>📅 Randevularım</Link>
-                        <Link href={`/u/${kullanici.kullaniciAdi}/ayarlar`} className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl transition-colors" onClick={() => setMenuAcik(false)}>⚙️ Ayarlar</Link>
-                      </>
-                    )}
-                    <div className="border-t border-gray-100 my-1" />
-                    <button onClick={() => signOut({ callbackUrl: '/' })} className="px-3 py-2.5 text-sm text-red-500 hover:bg-red-50 rounded-xl text-left font-medium transition-colors">
-                      🚪 Çıkış Yap
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div className="border-t border-gray-100 my-2" />
-                    <Link href="/giris" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl font-medium transition-colors" onClick={() => setMenuAcik(false)}>Giriş Yap</Link>
-                    <Link href="/kayit" className="btn-primary text-sm text-center !rounded-xl mt-1" onClick={() => setMenuAcik(false)}>
-                      <span>Ücretsiz Başla</span>
-                    </Link>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Mobile Menu */}
+      {menuAcik && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl overflow-y-auto max-h-[80vh] flex flex-col p-4 gap-2">
+          <Link href="/ara" className="p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>Keşfet</Link>
+          <Link href="/hizmetler" className="p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>Hizmetler</Link>
+          {kullanici ? (
+            <button onClick={() => signOut()} className="p-3 text-sm font-medium text-red-500 text-left">Çıkış Yap</button>
+          ) : (
+            <Link href="/giris" className="btn-primary mt-2" onClick={() => setMenuAcik(false)}>Giriş Yap</Link>
+          )}
+        </div>
+      )}
     </nav>
   )
 }
