@@ -5,7 +5,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="pt-16">{children}</main>
 
       {/* Premium Footer */}
       <footer className="bg-gray-950 text-gray-400 pt-16 pb-8 mt-20 relative overflow-hidden">

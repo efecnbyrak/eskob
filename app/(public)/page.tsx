@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/db'
 import Link from 'next/link'
 import { AramaKutusu } from '@/components/public/AramaKutusu'
-import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 
 export default async function AnaSayfa() {
@@ -16,12 +15,9 @@ export default async function AnaSayfa() {
 
   return (
     <div className="flex flex-col w-full bg-white">
-      {/* Spacer for Fixed Navbar */}
-      <div className="h-16" />
-
       {/* Hero Section */}
       <section className="relative w-full py-20 md:py-32 bg-[#FAFAFA] border-b border-gray-100 overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center relative z-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-700 text-[11px] sm:text-[12px] font-bold px-3 sm:px-4 py-1.5 rounded-full mb-6 sm:mb-8">
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
             İSTANBUL'UN ESNAF PLATFORMU
@@ -43,8 +39,8 @@ export default async function AnaSayfa() {
 
       {/* Stats Section */}
       <section className="py-16 bg-white border-b border-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             <StatCard icon="🏪" value={esnafSayisi} suffix="+" label="Kayıtlı İşletme" />
             <StatCard icon="📂" value={turler.length} suffix="" label="Hizmet Türü" />
             <StatCard icon="📋" value={kategoriSayisi} suffix="" label="Kategori" />
@@ -55,17 +51,17 @@ export default async function AnaSayfa() {
 
       {/* Categories Section */}
       <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">Ne Arıyorsunuz?</h2>
             <p className="text-gray-500">İhtiyacınıza en uygun hizmet kategorisini seçin</p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {turler.map((tur) => (
               <Link
                 key={tur.id}
                 href={`/ara?tur=${tur.slug}`}
-                className="card-premium flex flex-col items-center gap-4 p-6 hover:shadow-xl transition-all"
+                className="card-premium flex flex-col items-center justify-center gap-3 p-5 sm:p-6 hover:shadow-xl transition-all h-full min-h-[120px]"
               >
                 <span className="text-4xl">{tur.ikon}</span>
                 <span className="text-xs font-bold text-gray-800 text-center uppercase tracking-wider">{tur.ad}</span>
@@ -77,7 +73,7 @@ export default async function AnaSayfa() {
 
       {/* How it Works Section */}
       <section className="py-24 bg-[#F8F9FA]">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">Nasıl Çalışır?</h2>
             <p className="text-gray-500">3 basit adımda hizmete ulaşın</p>
@@ -92,7 +88,7 @@ export default async function AnaSayfa() {
 
       {/* Featured Businesses Section */}
       <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-12 md:mb-16">
             <div>
               <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-2 md:mb-4">Öne Çıkanlar</h2>

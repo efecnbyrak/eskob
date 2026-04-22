@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
 
 export function Navbar() {
