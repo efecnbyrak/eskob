@@ -17,24 +17,25 @@ export default async function AnaSayfa() {
   return (
     <div className="flex flex-col w-full bg-white">
       {/* Spacer for Fixed Navbar */}
-      <div className="h-20" />
+      <div className="h-16" />
 
       {/* Hero Section */}
       <section className="relative w-full py-20 md:py-32 bg-[#FAFAFA] border-b border-gray-100 overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-700 text-[12px] font-bold px-4 py-1.5 rounded-full mb-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center relative z-10">
+          <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-700 text-[11px] sm:text-[12px] font-bold px-3 sm:px-4 py-1.5 rounded-full mb-6 sm:mb-8">
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
             İSTANBUL'UN ESNAF PLATFORMU
           </div>
-          <h1 className="text-4x sm:text-5xl md:text-7xl font-black text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-gray-900 mb-4 sm:mb-6 leading-tight">
             Yakınındaki Esnafı <br />
             <span className="gradient-text">Keşfet</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Berberden restorana, spor salonundan güzellik merkezine — <br className="hidden sm:block" />
+          <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
+            Berberden restorana, spor salonundan güzellik merkezine —{' '}
+            <br className="hidden sm:block" />
             tüm yerel hizmetler güvenle bir arada.
           </p>
-          <div className="max-w-2xl mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
             <AramaKutusu />
           </div>
         </div>
@@ -92,27 +93,27 @@ export default async function AnaSayfa() {
       {/* Featured Businesses Section */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-16 px-4">
+          <div className="flex items-end justify-between mb-12 md:mb-16">
             <div>
-              <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">Öne Çıkanlar</h2>
-              <p className="text-gray-500">En kaliteli ve popüler işletmeler</p>
+              <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-2 md:mb-4">Öne Çıkanlar</h2>
+              <p className="text-gray-500 text-sm md:text-base">En kaliteli ve popüler işletmeler</p>
             </div>
-            <Link href="/ara" className="text-sm font-bold text-orange-500 hover:underline">Tümünü Gör →</Link>
+            <Link href="/ara" className="text-sm font-bold text-orange-500 hover:underline whitespace-nowrap ml-4">Tümünü Gör →</Link>
           </div>
           <OncuIsletmeler />
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4">
-        <div className="max-w-6xl mx-auto bg-gray-900 rounded-[2.5rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl">
+      <section className="py-16 md:py-24 px-4">
+        <div className="max-w-6xl mx-auto bg-gray-900 rounded-[1.5rem] sm:rounded-[2.5rem] p-8 sm:p-12 md:p-24 text-center relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 blur-[100px] rounded-full" />
           <div className="relative z-10">
-            <h2 className="text-3xl md:text-6xl font-black text-white mb-8">İşletmenizi Dijitale Taşıyın</h2>
-            <p className="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-6xl font-black text-white mb-4 sm:mb-8">İşletmenizi Dijitale Taşıyın</h2>
+            <p className="text-gray-400 text-base md:text-lg mb-8 sm:mb-12 max-w-2xl mx-auto">
               Ücretsiz hesabınızı oluşturun, hizmetlerinizi listeleyin ve binlerce müşteriye hemen ulaşın.
             </p>
-            <Link href="/kayit" className="btn-primary text-xl px-12 py-5 !rounded-2xl">
+            <Link href="/kayit" className="btn-primary text-base sm:text-xl px-8 sm:px-12 py-4 sm:py-5 !rounded-2xl whitespace-nowrap">
               Ücretsiz Başla
             </Link>
           </div>
@@ -156,7 +157,7 @@ async function OncuIsletmeler() {
   if (esnaflar.length === 0) return null
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       {esnaflar.map((esnaf) => (
         <Link key={esnaf.id} href={`/${esnaf.slug}`} className="card-premium overflow-hidden group">
           <div className="h-48 bg-gray-50 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">

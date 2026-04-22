@@ -51,7 +51,7 @@ export function Navbar() {
       : null
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${scrolled ? 'glass-nav shadow-sm h-16' : 'bg-white h-20'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 h-16 ${scrolled ? 'glass-nav shadow-sm' : 'bg-white border-b border-gray-50'}`}>
       <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
         
         {/* Logo Bölümü */}
@@ -134,13 +134,31 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {menuAcik && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl overflow-y-auto max-h-[80vh] flex flex-col p-4 gap-2">
-          <Link href="/ara" className="p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>Keşfet</Link>
-          <Link href="/hizmetler" className="p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>Hizmetler</Link>
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl overflow-y-auto max-h-[80vh] flex flex-col p-4 gap-1">
+          <Link href="/ara" className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>🔍 Keşfet</Link>
+          <Link href="/hizmetler" className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>✨ Hizmetler</Link>
+          {!kullanici && (
+            <Link href="/esnaf-ol" className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>🏪 Esnaf Ol</Link>
+          )}
           {kullanici ? (
-            <button onClick={() => signOut()} className="p-3 text-sm font-medium text-red-500 text-left">Çıkış Yap</button>
+            <>
+              {panelLinki && (
+                <Link href={panelLinki} className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-orange-50 rounded-xl text-orange-600" onClick={() => setMenuAcik(false)}>📊 Panelim</Link>
+              )}
+              {kullanici.rol === 'USER' && kullanici.kullaniciAdi && (
+                <>
+                  <Link href={`/u/${kullanici.kullaniciAdi}/favoriler`} className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>❤️ Favorilerim</Link>
+                  <Link href={`/u/${kullanici.kullaniciAdi}/randevular`} className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-gray-50 rounded-xl" onClick={() => setMenuAcik(false)}>📅 Randevularım</Link>
+                </>
+              )}
+              <div className="border-t border-gray-100 my-2" />
+              <button onClick={() => signOut({ callbackUrl: '/' })} className="flex items-center gap-3 p-3 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl text-left w-full">🚪 Çıkış Yap</button>
+            </>
           ) : (
-            <Link href="/giris" className="btn-primary mt-2" onClick={() => setMenuAcik(false)}>Giriş Yap</Link>
+            <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-gray-100">
+              <Link href="/giris" className="p-3 text-sm font-semibold text-center border border-gray-200 rounded-xl hover:bg-gray-50" onClick={() => setMenuAcik(false)}>Giriş Yap</Link>
+              <Link href="/kayit" className="btn-primary text-center text-sm" onClick={() => setMenuAcik(false)}>Ücretsiz Başla</Link>
+            </div>
           )}
         </div>
       )}

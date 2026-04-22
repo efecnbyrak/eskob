@@ -43,7 +43,7 @@ export default async function EsnafProfilPage({ params }: Props) {
   }).catch(() => {})
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 pt-20 pb-8">
       {/* Kapak */}
       <div className="h-48 md:h-64 bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden">
         <span className="text-7xl">{esnaf.kategori.ikon}</span>

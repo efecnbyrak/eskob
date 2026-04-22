@@ -72,7 +72,7 @@ export function RandevuFormClient({ esnafId, hizmetler }: Props) {
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Adınız *</label>
           <input value={form.musteriAd} onChange={e => set('musteriAd', e.target.value)} required placeholder="Adınız" className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
