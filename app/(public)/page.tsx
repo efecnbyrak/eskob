@@ -22,7 +22,7 @@ export default async function AnaSayfa() {
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
             İSTANBUL'UN ESNAF PLATFORMU
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-gray-900 mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-gray-900 mb-4 sm:mb-6 leading-tight">
             Yakınındaki Esnafı <br />
             <span className="gradient-text">Keşfet</span>
           </h1>
@@ -40,7 +40,7 @@ export default async function AnaSayfa() {
       {/* Stats Section */}
       <section className="py-16 bg-white border-b border-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <StatCard icon="🏪" value={esnafSayisi} suffix="+" label="Kayıtlı İşletme" />
             <StatCard icon="📂" value={turler.length} suffix="" label="Hizmet Türü" />
             <StatCard icon="📋" value={kategoriSayisi} suffix="" label="Kategori" />
@@ -56,7 +56,7 @@ export default async function AnaSayfa() {
             <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">Ne Arıyorsunuz?</h2>
             <p className="text-gray-500">İhtiyacınıza en uygun hizmet kategorisini seçin</p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {turler.map((tur) => (
               <Link
                 key={tur.id}

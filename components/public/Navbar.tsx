@@ -51,15 +51,15 @@ export function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 h-16 ${scrolled ? 'glass-nav shadow-sm' : 'bg-white border-b border-gray-50'}`}>
-      <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between gap-4">
         
         {/* Logo Bölümü */}
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-4 md:gap-12 shrink-0">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
               <span className="text-white font-black text-sm">E</span>
             </div>
-            <span className="text-xl font-black tracking-tight text-gray-900">ESKOB</span>
+            <span className="text-lg md:text-xl font-black tracking-tight text-gray-900">ESKOB</span>
           </Link>
 
           {/* Desktop Orta Linkler */}
@@ -73,19 +73,19 @@ export function Navbar() {
         </div>
 
         {/* Sağ Taraf - Auth */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           {status === 'loading' ? (
             <div className="w-8 h-8 rounded-full bg-gray-100 animate-pulse" />
           ) : kullanici ? (
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative shrink-0" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownAcik(!dropdownAcik)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-50 transition-colors border border-gray-100"
+                className="flex items-center gap-2 px-2 md:px-3 py-1.5 rounded-full hover:bg-gray-50 transition-colors border border-gray-100"
               >
-                <div className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold">
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold">
                   {basSaltHarfler}
                 </div>
-                <span className="text-sm font-semibold text-gray-700 hidden sm:block">{kullanici.ad}</span>
+                <span className="text-sm font-semibold text-gray-700 hidden lg:block">{kullanici.ad}</span>
                 <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform ${dropdownAcik ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -116,7 +116,7 @@ export function Navbar() {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-3">
               <Link href="/giris" className="text-sm font-semibold text-gray-700 hover:text-orange-500 px-4 py-2">Giriş Yap</Link>
               <Link href="/kayit" className="btn-primary !py-2 !px-5 text-sm">Ücretsüz Başla</Link>
             </div>
