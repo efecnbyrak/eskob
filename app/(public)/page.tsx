@@ -165,7 +165,7 @@ async function OncuIsletmeler() {
           </div>
           <div className="p-8">
             <div className="flex items-start justify-between mb-4">
-              <h3 className="font-bold text-xl text-gray-900">{esnaf.isletmeAdi}</h3>
+              <h3 className="font-bold text-xl text-gray-900 truncate">{esnaf.isletmeAdi}</h3>
               <span className="bg-orange-50 text-orange-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">
                 {esnaf.kategori.ad}
               </span>

@@ -93,7 +93,7 @@ export function Navbar() {
               </button>
 
               {dropdownAcik && (
-                <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-[110] animate-slide-down">
+                <div className="absolute right-0 top-full mt-2 w-56 max-w-[calc(100vw-1rem)] bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-[110] animate-slide-down">
                   {panelLinki && (
                     <Link href={panelLinki} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50" onClick={() => setDropdownAcik(false)}>
                       <span>📊</span> Panelim
@@ -124,7 +124,7 @@ export function Navbar() {
           )}
 
           {/* Mobile Menu Button */}
-          <button onClick={() => setMenuAcik(!menuAcik)} className="md:hidden p-2 text-gray-600">
+          <button onClick={() => setMenuAcik(!menuAcik)} aria-label="Menüyü aç/kapat" className="md:hidden p-2 text-gray-600">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {menuAcik ? <path d="M6 18L18 6M6 6l12 12" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
             </svg>

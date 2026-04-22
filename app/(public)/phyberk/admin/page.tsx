@@ -33,7 +33,7 @@ export default async function AdminPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {[
           { ikon: '👤', etiket: 'Kullanıcı', deger: kullaniciSayisi },
           { ikon: '🏪', etiket: 'İşletme', deger: esnafSayisi },

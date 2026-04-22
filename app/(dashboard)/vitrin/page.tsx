@@ -79,17 +79,17 @@ export default function VitrinPage() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Input label="Telefon" value={esnaf.telefon || ''} onChange={e => setEsnaf(prev => prev && { ...prev, telefon: e.target.value })} />
           <Input label="WhatsApp" value={esnaf.whatsapp || ''} onChange={e => setEsnaf(prev => prev && { ...prev, whatsapp: e.target.value })} />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Input label="Website" value={esnaf.website || ''} onChange={e => setEsnaf(prev => prev && { ...prev, website: e.target.value })} />
           <Input label="Instagram" value={esnaf.instagram || ''} onChange={e => setEsnaf(prev => prev && { ...prev, instagram: e.target.value })} placeholder="@kullanici" />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Input label="Şehir" value={esnaf.sehir} onChange={e => setEsnaf(prev => prev && { ...prev, sehir: e.target.value })} />
           <Input label="İlçe" value={esnaf.ilce} onChange={e => setEsnaf(prev => prev && { ...prev, ilce: e.target.value })} />
         </div>

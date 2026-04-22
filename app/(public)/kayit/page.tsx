@@ -85,7 +85,7 @@ export default function KayitPage() {
             <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-xl">{hata}</div>
           )}
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Ad *</label>
               <input value={form.ad} onChange={e => set('ad', e.target.value)} required placeholder="Ahmet" className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
@@ -116,7 +116,7 @@ export default function KayitPage() {
             <input type="password" value={form.sifre} onChange={e => set('sifre', e.target.value)} required placeholder="••••••••" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Doğum Tarihi</label>
               <input type="date" value={form.dogumTarihi} onChange={e => set('dogumTarihi', e.target.value)} max={maxDogumTarihi} className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
@@ -148,7 +148,7 @@ export default function KayitPage() {
                   ))}
                 </select>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Şehir *</label>
                   <input value={form.esnafSehir} onChange={e => set('esnafSehir', e.target.value)} required={tur === 'business'} placeholder="İstanbul" className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
